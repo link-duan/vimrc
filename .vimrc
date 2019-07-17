@@ -18,6 +18,7 @@ Plug 'yggdroot/leaderf',  { 'do': './install.sh' }
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'neomake/neomake'
 
 call plug#end()
 set tabstop=4
@@ -65,7 +66,17 @@ let g:asyncrun_bell = 1
 " 设置 F10 打开/关闭 Quickfix 窗口
 nnoremap <F10> :call asyncrun#quickfix_toggle(6)<cr>
 
+" 设置neomake自动更新
+call neomake#configure#automake('w')
+let g:neomake_c_lint_maker = {
+        \ 'exe': 'astyle',
+        \ 'args': ['--style=google', '--pad-comma', '--pad-oper', '--delete-empty-lines', '--pad-header', '%t'],
+        \ 'errorformat': '%f:%l:%c: %m',
+        \ }
+
+
 "key maps
 nnoremap <Leader>n :NERDTreeToggle<CR>
 let g:Lf_ShortcutF = '<C-P>'
 noremap <Leader>f :LeaderfFunction!<cr>
+noremap <Leader>L :w<CR> :Neomake lint<CR> :e<CR>
